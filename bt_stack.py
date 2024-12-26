@@ -10,8 +10,8 @@ def fetch_bt_sid_dynamic_window():
         cloudwatch = boto3.client('cloudwatch', region_name='eu-west-1')
 
         # Metric parameters
-        namespace = "ORBWEB"
-        metric_name = "AVALABLE"
+        namespace = "*"
+        metric_name = "*"
         statistic = "Average"
         period = 300
         max_window = 60
@@ -50,8 +50,8 @@ def fetch_bt_sms_spent():
         cloudwatch = boto3.client('cloudwatch', region_name='eu-west-1')
 
         response = cloudwatch.get_metric_statistics(
-            Namespace="AWS/SNS",
-            MetricName="SMSMonthToDateSpentUSD",
+            Namespace="SNS",
+            MetricName="USD",
             Dimensions=[],
             StartTime=datetime.utcnow() - timedelta(minutes=5),
             EndTime=datetime.utcnow(),
@@ -72,5 +72,5 @@ bt_sid = fetch_bt_sid_dynamic_window()
 if __name__ == "__main__":
     bt_sid = fetch_bt_sid_dynamic_window()
     bt_sms = fetch_bt_sms_spent()
-    print(f"BT SMS SPENT = {bt_sms}")
-    print(f"BT SID = {bt_sid}")
+    print(f"Value = {bt_sms}")
+    print(f"Value = {bt_sid}")

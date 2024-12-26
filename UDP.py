@@ -13,9 +13,9 @@ def fetch_udp_memory_utilization():
         namespace = "Production/Disk_Memory"
         metric_name = "mem_used_percent"
         dimensions = [
-            {"Name": "InstanceId", "Value": "i-0282efd00ccd6aea6"},
-            {"Name": "ImageId", "Value": "ami-02c7b3e78b137c2f5"},
-            {"Name": "InstanceType", "Value": "m5.large"}
+            {"Name": "InstanceId", "Value": "INSTANCE-ID"},
+            {"Name": "ImageId", "Value": "AMI-ID"},
+            {"Name": "InstanceType", "Value": "TYPE"}
         ]
         period = 300  # 5-minute intervals
         end_time = datetime.utcnow()

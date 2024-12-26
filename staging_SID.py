@@ -9,12 +9,12 @@ def fetch_staging_sid_dynamic():
     """
     try:
         # Initialize CloudWatch client for North Virginia using staging profile
-        session = boto3.Session(profile_name="simplimonitor", region_name="us-east-1")
+        session = boto3.Session(profile_name="staging", region_name="region")
         cloudwatch = session.client("cloudwatch")
 
         # Metric details
-        namespace = "ORBWEB"
-        metric_name = "AVALABLE"
+        namespace = "****"
+        metric_name = "*****"
         period = 300  # 5-minute intervals
         max_window = 60  # Maximum window size in minutes
         window = 5  # Start with a 5-minute window
@@ -58,6 +58,6 @@ if __name__ == "__main__":
 
     # Print the final output
     if sid_value is not None:
-        print(f"Staging SID = {sid_value}")
+        print(f"SID = {sid_value}")
     else:
-        print("Staging SID = No data")
+        print("SID = No data")

@@ -54,18 +54,7 @@ def get_security_group_associations(security_group_ids):
 
 def main():
     # Replace with the security group IDs from the Custodian mail
-    security_group_ids = [
-        "sg-2418316e",
-        "sg-005f71754530d97a5",
-        "sg-0576c4af37446a361",
-        "sg-076ab11246e913f91",
-        "sg-9a8d5de5",
-        "sg-03354f71b3596510e",
-        "sg-0754c6f01ef77f1bf",
-        "sg-0ddde8a008e12cdf3",
-        "sg-04e2711617402a01b",
-        "sg-251c4958"
-    ]
+    security_group_ids = [""]
 
     associations = get_security_group_associations(security_group_ids)
 

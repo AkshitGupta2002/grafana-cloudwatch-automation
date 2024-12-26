@@ -13,7 +13,7 @@ def fetch_upload_memory_utilization():
         # Define query parameters
         namespace = "Production/Disk_Memory"
         metric_name = "mem_used_percent"
-        dimensions = [{"Name": "AutoScalingGroupName", "Value": "H3O-UPLOAD-ASG"}]
+        dimensions = [{"Name": "AutoScalingGroupName", "Value": "ASG-NAME"}]
         period = 300  # 5-minute intervals
         end_time = datetime.utcnow()
         start_time = end_time - timedelta(hours=6)  # Query last 6 hours

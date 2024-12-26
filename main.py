@@ -5,203 +5,203 @@ from EFS_size import fetch_efs_metric_message  # Import EFS Size function
 from Hubble_SID import fetch_hubble_sid_message  # Import Hubble SID function
 from datetime import datetime
 from UDP import fetch_udp_memory_utilization
-from upload_mem_util import fetch_upload_memory_utilization
+from SERVER3_mem_util import fetch_SERVER3_memory_utilization
 from bt_stack import bt_sms, bt_sid
 from staging_SID import staging_sid
 
 # Initialize the CloudWatch client
 cloudwatch = boto3.client('cloudwatch', region_name='us-east-1')
 
-# Metric configurations for API, CS, and Upload
+# Metric configurations for SERVER1, CS, and SERVER3
 metrics_config = {
-    "API": {
+    "SERVER1": {
         "latency": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "TargetResponseTime",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Average"]
         },
         "healthy_hosts": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HealthyHostCount",
             "Dimensions": [
-                {"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"},
-                {"Name": "TargetGroup", "Value": "targetgroup/HUBBLE-API-8080/88ccf5925facaec3"}
+                {"Name": "LoadBalancer", "Value": "**"},
+                {"Name": "TargetGroup", "Value": "**"}
             ],
             "Period": 60,
             "Statistics": ["Average"]
         },
         "Request_Count": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "RequestCount",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_2XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_2XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_3XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_3XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_4XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_4XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_5XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_5XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "ELB_4XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_ELB_4XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "ELB_5XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_ELB_5XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-API-ALB/7172bbdedfacf464"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         }
     },
     "CS": {
         "latency": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "TargetResponseTime",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Average"]
         },
         "healthy_hosts": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HealthyHostCount",
             "Dimensions": [
-                {"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"},
-                {"Name": "TargetGroup", "Value": "targetgroup/HUBBLE-CS-8080/f097bbc269082f7a"}
+                {"Name": "LoadBalancer", "Value": "**"},
+                {"Name": "TargetGroup", "Value": "**"}
             ],
             "Period": 60,
             "Statistics": ["Average"]
         },
         "Request_Count": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "RequestCount",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_2XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_2XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_3XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_3XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_4XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_4XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_5XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_5XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "ELB_4XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_ELB_4XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "ELB_5XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_ELB_5XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/Hubble-Service-ALB/8bb56f45ecaa2afc"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         }
     },
-    "Upload": {
+    "SERVER3": {
         "latency": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "TargetResponseTime",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/H3O-UPLOAD-ALB/3ddbe2e4405a61b3"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Average"]
         },
         "in_service_instances": {
-            "Namespace": "AWS/AutoScaling",
+            "Namespace": "AutoScaling",
             "MetricName": "GroupInServiceInstances",
-            "Dimensions": [{"Name": "AutoScalingGroupName", "Value": "H3O-UPLOAD-ASG"}],
+            "Dimensions": [{"Name": "AutoScalingGroupName", "Value": "ASG"}],
             "Period": 60,
             "Statistics": ["Average"]
         },
         "Request_Count": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "RequestCount",
             "Dimensions": [
-                {"Name": "LoadBalancer", "Value": "app/H3O-UPLOAD-ALB/3ddbe2e4405a61b3"},
-                {"Name": "TargetGroup", "Value": "targetgroup/H3O-UPLOAD-ALB-TG/031bc9e9ea4f9a84"}
+                {"Name": "LoadBalancer", "Value": "**"},
+                {"Name": "TargetGroup", "Value": "**"}
             ],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_4XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_4XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/H3O-UPLOAD-ALB/3ddbe2e4405a61b3"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         },
         "HTTP_5XX": {
-            "Namespace": "AWS/ApplicationELB",
+            "Namespace": "ELB",
             "MetricName": "HTTPCode_Target_5XX_Count",
-            "Dimensions": [{"Name": "LoadBalancer", "Value": "app/H3O-UPLOAD-ALB/3ddbe2e4405a61b3"}],
+            "Dimensions": [{"Name": "LoadBalancer", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Sum"]
         }
     },
     "SmartAnalytics": {
         "healthy_hosts": {
-            "Namespace": "AWS/AutoScaling",
+            "Namespace": "AWS",
             "MetricName": "GroupTotalInstances",
-            "Dimensions": [{"Name": "AutoScalingGroupName", "Value": "/SMART-ANALYTICS/production-v1"}],
+            "Dimensions": [{"Name": "AutoScalingGroupName", "Value": "SMART-ANALYTICS"}],
             "Period": 60,
             "Statistics": ["Average"]
         },
         "message_visible": {
             "Namespace": "AWS/SQS",
             "MetricName": "ApproximateNumberOfMessagesVisible",
-            "Dimensions": [{"Name": "QueueName", "Value": "hubble-resources-flv-listener"}],
+            "Dimensions": [{"Name": "QueueName", "Value": "**"}],
             "Period": 60,
             "Statistics": ["Average"]
         }
@@ -287,9 +287,9 @@ def get_metrics(metrics_config):
 
             for metric_name, metric in metrics.items():
                 is_specific_hourly_metric = (
-                    (section == "API" and metric_name in ["HTTP_5XX", "ELB_5XX"]) or
-                    (section == "CS" and metric_name in ["HTTP_3XX", "HTTP_5XX"]) or
-                    (section == "Upload" and metric_name in ["HTTP_5XX"])
+                    (section == "SERVER1" and metric_name in ["HTTP_5XX", "ELB_5XX"]) or
+                    (section == "SERVER2" and metric_name in ["HTTP_3XX", "HTTP_5XX"]) or
+                    (section == "SERVER3" and metric_name in ["HTTP_5XX"])
                 )
 
                 is_priority_metric = metric_name in ["Request_Count", "HTTP_2XX"]
@@ -330,10 +330,10 @@ def get_metrics(metrics_config):
                 else:
                     message += f"{label} = 0\n"
 
-            if section == "Upload":
-                # Add the Upload Memory Utilization
-                upload_memory_message = fetch_upload_memory_utilization()
-                message += f"{upload_memory_message}\n"
+            if section == "SERVER3":
+                # Add the SERVER3 Memory Utilization
+                SERVER3_memory_message = fetch_SERVER3_memory_utilization()
+                message += f"{SERVER3_memory_message}\n"
 
             message += "\n"
 

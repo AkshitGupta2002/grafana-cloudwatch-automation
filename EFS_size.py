@@ -20,8 +20,7 @@ def fetch_efs_metric_message():
             "Namespace": "AWS/EFS",
             "MetricName": "StorageBytes",
             "Dimensions": [
-                {"Name": "FileSystemId", "Value": "fs-08bcdb68e6051dae0"},
-                {"Name": "StorageClass", "Value": "Standard"}
+                {"Name": "FileSystemId", "Value": "**"}
             ],
             "Statistics": ["Sum"]
         }

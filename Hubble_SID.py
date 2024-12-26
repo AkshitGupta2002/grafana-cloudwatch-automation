@@ -9,8 +9,8 @@ def fetch_hubble_sid_message():
     try:
         # Define the CloudWatch metric parameters
         hubble_sid_metric = {
-            "Namespace": "ORBWEB",
-            "MetricName": "AVALABLE",  # Metric name
+            "Namespace": "*",
+            "MetricName": "*",  # Metric name
             "Dimensions": [],
             "Statistics": ["Sum"],  # Sum statistic
         }
@@ -33,12 +33,12 @@ def fetch_hubble_sid_message():
         # Process the response if data is available
         if response and response["Datapoints"]:
             total_sum = sum(dp["Sum"] for dp in response["Datapoints"])  # Sum of all datapoints
-            message = f"Hubble SID = {total_sum:.0f}"
+            message = f"ID = {total_sum:.0f}"
             return message # Format the sum as an integer
 
-        message = "Hubble SID = No data available"
+        message = "ID = No data available"
         return message
 
     except Exception as e:
-        message = f"Hubble SID = Error: {str(e)}"
+        message = f"ID = Error: {str(e)}"
         return message
