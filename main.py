@@ -1,12 +1,12 @@
 import boto3
 import time
 from datetime import datetime, timedelta
-from EFS_size import fetch_efs_metric_message  # Import EFS Size function
-from Hubble_SID import fetch_hubble_sid_message  # Import Hubble SID function
+from size import fetch_efs_metric_message  # Import EFS Size function
+from ids import fetch_hubble_sid_message  # Import Hubble SID function
 from datetime import datetime
-from UDP import fetch_udp_memory_utilization
-from SERVER3_mem_util import fetch_SERVER3_memory_utilization
-from bt_stack import bt_sms, bt_sid
+from mem_util2 import fetch_udp_memory_utilization
+from mem_util import fetch_SERVER3_memory_utilization
+from region2 import bt_sms, bt_sid
 from staging_SID import staging_sid
 
 # Initialize the CloudWatch client
